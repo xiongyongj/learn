@@ -7,7 +7,7 @@ CCEffect %{
                 frag: fs
                 blendState:
                     targets:
-                    -   blend: true
+                    - blend: true
                 rasterizerState:
                     cullMode: none
                 properties:

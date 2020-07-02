@@ -1,0 +1,76 @@
+
+dandinghe.png
+size: 785,785
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 583
+  size: 601, 200
+  orig: 601, 200
+  offset: 0, 0
+  index: -1
+lantern
+  rotate: true
+  xy: 486, 554
+  size: 27, 43
+  orig: 27, 43
+  offset: 0, 0
+  index: -1
+leg_l
+  rotate: true
+  xy: 605, 553
+  size: 230, 134
+  orig: 230, 134
+  offset: 0, 0
+  index: -1
+leg_r
+  rotate: false
+  xy: 2, 14
+  size: 238, 115
+  orig: 238, 115
+  offset: 0, 0
+  index: -1
+light
+  rotate: false
+  xy: 729, 80
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ribbon
+  rotate: true
+  xy: 622, 120
+  size: 14, 105
+  orig: 14, 105
+  offset: 0, 0
+  index: -1
+saddle
+  rotate: false
+  xy: 486, 12
+  size: 134, 122
+  orig: 134, 122
+  offset: 0, 0
+  index: -1
+wing_l
+  rotate: false
+  xy: 2, 131
+  size: 482, 450
+  orig: 482, 450
+  offset: 0, 0
+  index: -1
+wing_r
+  rotate: false
+  xy: 486, 136
+  size: 275, 415
+  orig: 275, 415
+  offset: 0, 0
+  index: -1
+yuandian
+  rotate: false
+  xy: 531, 571
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
