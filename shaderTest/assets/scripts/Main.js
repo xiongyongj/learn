@@ -7,7 +7,7 @@ cc.Class({
     },
 
     onLoad() {
-        cc.loader.loadRes("prefabs/mosaic", cc.Prefab, (err, pfb) => {
+        cc.loader.loadRes("prefabs/glowInner", cc.Prefab, (err, pfb) => {
             if (err) {
 
             } else {

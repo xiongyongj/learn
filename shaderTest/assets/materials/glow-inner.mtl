@@ -1,0 +1,29 @@
+{
+  "__type__": "cc.Material",
+  "_name": "glow-inner",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "ba0369ac-178f-4b3f-9eeb-2d3c199f4d94"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "glowColorSize": 0.01,
+        "glowThreshold": 0.1,
+        "glowColor": {
+          "__type__": "cc.Color",
+          "r": 217,
+          "g": 115,
+          "b": 226,
+          "a": 255
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true,
+        "SHOW_INNER_GLOW": true
+      }
+    }
+  }
+}
