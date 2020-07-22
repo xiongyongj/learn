@@ -114,7 +114,7 @@ CCProgram fs %{
         a *= 1.0 - (dis / radius);
 
         vec4 color = centerColor * a;
-        return textureColor * textureColor.a + color;
+        return color + textureColor;
     }
     #endif
 

@@ -1,0 +1,34 @@
+{
+  "__type__": "cc.Material",
+  "_name": "flash-light",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "3d2ae86e-be01-4783-b761-dde6d460fd58"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "USE_FLASH_LIGHT": true
+      },
+      "props": {
+        "lineCenter": {
+          "__type__": "cc.Vec2",
+          "x": 0.5,
+          "y": 0.5
+        },
+        "lineColor": {
+          "__type__": "cc.Color",
+          "r": 162,
+          "g": 46,
+          "b": 46,
+          "a": 133
+        },
+        "lineWidth": 0.1,
+        "lineAngle": 45
+      }
+    }
+  }
+}

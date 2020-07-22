@@ -7,7 +7,7 @@ cc.Class({
     },
 
     onLoad() {
-        cc.loader.loadRes("prefabs/point-light", cc.Prefab, (err, pfb) => {
+        cc.loader.loadRes("prefabs/flash-light", cc.Prefab, (err, pfb) => {
             if (err) {
 
             } else {

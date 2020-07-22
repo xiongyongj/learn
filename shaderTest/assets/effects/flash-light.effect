@@ -1,0 +1,155 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+        lineColor: {
+            value: [1.0, 1.0, 1.0, 1.0],
+            editor: {
+                type: color,
+                tooltip: "光束颜色"
+            }
+        }
+        lineCenter: {
+            value: [0.0, 0.0],
+            editor: {
+                tooltip: "光束中心点"
+            }
+        }
+        lineWidth: {
+            value: 1.0,
+            editor: {
+                tooltip: "光束宽度"
+            }
+        }
+        lineAngle: {
+            value: 0.0,
+            editor: {
+                tooltip: "光束角度"
+            }
+        }
+        lineFog: {
+            value: 1.0,
+            editor: {
+                tooltip: "迷雾"
+            }
+        }
+}%
+
+CCProgram vs %{
+    precision highp float;
+
+    #include <cc-global>
+    #include <cc-local>
+
+    in vec3 a_position;
+    in vec4 a_color;
+    out vec4 v_color;
+
+    #if USE_TEXTURE
+    in vec2 a_uv0;
+    out vec2 v_uv0;
+    #endif
+
+    void main () {
+        vec4 pos = vec4(a_position, 1);
+
+        #if CC_USE_MODEL
+        pos = cc_matViewProj * cc_matWorld * pos;
+        #else
+        pos = cc_matViewProj * pos;
+        #endif
+
+        #if USE_TEXTURE
+        v_uv0 = a_uv0;
+        #endif
+
+        v_color = a_color;
+
+        gl_Position = pos;
+    }
+}%
+
+
+CCProgram fs %{
+    precision highp float;
+    
+    #include <alpha-test>
+
+    in vec4 v_color;
+
+    #if USE_TEXTURE
+    in vec2 v_uv0;
+    uniform sampler2D texture;
+    #endif
+
+    #if USE_FLASH_LIGHT
+    uniform flashData {
+        vec4 lineColor;
+        vec2 lineCenter;
+        float lineWidth;
+        float lineAngle;
+        float lineFog;
+    };
+
+    // vec2(k, b) | 直线方程： y = kx + b
+    float getDist(vec2 center, float angle) {
+        float dist = 0.0;
+        if (angle == 0.0 || angle == 180.0) {
+            dist = abs(v_uv0.y - center.y);
+        } else if (angle == 90.0 || angle == 270.0) {
+            dist = abs(v_uv0.x - center.x);
+        } else {
+            float k = tan(radians(angle));
+            float b = center.y - k * center.x;
+            dist = (abs(k * v_uv0.x - v_uv0.y + b) / pow(pow(k, 2.0) + 1.0, 0.5));
+        }
+        return dist;
+    }
+    #endif
+
+    void main () {
+        vec4 o = vec4(1, 1, 1, 1);
+
+        #if USE_TEXTURE
+        o *= texture(texture, v_uv0);
+            #if CC_USE_ALPHA_ATLAS_TEXTURE
+            o.a *= texture2D(texture, v_uv0 + vec2(0, 0.5)).r;
+            #endif
+        #endif
+
+        o *= v_color;
+
+        ALPHA_TEST(o);
+
+        gl_FragColor = o;
+
+        #if USE_FLASH_LIGHT
+        float dist = getDist(lineCenter, lineAngle);
+
+        float a = 1.0;
+
+        if (gl_FragColor.a < 0.01) {
+            a *= 0.0;
+        }
+
+        a *= 1.0 - dist / (lineWidth * 0.5);
+
+        if (lineFog == 0.0) {
+            a *= (dist > (lineWidth * 0.5) ? 0.0 : 1.0);
+        }
+
+        gl_FragColor = lineColor * a + gl_FragColor;
+        #endif
+    }
+}%
