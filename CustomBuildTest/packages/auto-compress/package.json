@@ -1,0 +1,20 @@
+
+{
+    "name": "auto-compress",
+    "version": "0.0.1",
+    "author": "XYJ",
+    "description": "构建后自动压缩图片资源",
+    "main": "main.js",
+    "main-menu" : {
+        "i18n:MAIN_MENU.package.title/Auto Compress": {
+            "message" : "auto-compress:open"
+        }
+    },
+    "panel" : {
+        "title" : "Auto Compress",
+        "main" : "panel/main.js",
+        "type" : "dockable",
+        "width" : 400,
+        "height" : 300
+    }
+}

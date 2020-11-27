@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="./reset.css"/>
+    <body>
+        <div class="bodyDiv">
+            <h2>配置面板</h2>
+            <hr/>
+            <div class="enabledBlock">
+                <p class="enabled">启用</p>
+                <input id="EI" type="checkbox" name="启用">
+            </div>
+            <hr/>
+
+            <div class="qualityBlock">
+                <div>
+                    <p class="quality">最低质量</p>
+                    <input id="MIN_QI" type="number" name="最低质量" value="50" min="0" max="100">
+                </div>
+                
+                <div>
+                    <p class="quality">最高质量</p>
+                    <input id="MAX_QI" type="number" name="最高质量" value="80" min="0" max="100">
+                </div>
+                <p>质量区间为[0, 100]，并且最低质量小于最高质量</p>
+            </div>
+
+            <hr/>
+            <button class="save" type="button" >保  存</button>
+        </div>
+    </body>
+</html>

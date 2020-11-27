@@ -1,0 +1,45 @@
+
+.bodyDiv {
+    padding: 0 10px 10px;
+
+    height: auto;
+}
+
+h2, h4 {
+    text-align: center;
+}
+
+.enabledBlock,.qualityBlock {
+    padding: 0 10px;
+}
+
+div {
+    margin: 15px 0;
+}
+
+.save {
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    height: 30px;
+    background-color: rgb(127, 178, 255);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.enabled, .quality {
+    display: inline;
+    font-size: 14px;
+}
+
+.enabled {
+    margin-right: 175px;
+}
+
+.quality {
+    margin-right: 90px;
+}
+
+#MIN_QI, #MAX_QI {
+    width: 130px;
+}

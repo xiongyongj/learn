@@ -1,0 +1,90 @@
+
+xuanyun.png
+size: 302,85
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+effect0001
+  rotate: true
+  xy: 212, 8
+  size: 75, 43
+  orig: 79, 45
+  offset: 3, 1
+  index: -1
+effect0002
+  rotate: true
+  xy: 212, 8
+  size: 75, 43
+  orig: 79, 45
+  offset: 3, 1
+  index: -1
+effect0003
+  rotate: true
+  xy: 257, 8
+  size: 75, 43
+  orig: 79, 46
+  offset: 2, 2
+  index: -1
+effect0004
+  rotate: true
+  xy: 257, 8
+  size: 75, 43
+  orig: 79, 46
+  offset: 2, 2
+  index: -1
+effect0005
+  rotate: true
+  xy: 164, 5
+  size: 78, 46
+  orig: 80, 49
+  offset: 1, 1
+  index: -1
+effect0006
+  rotate: true
+  xy: 164, 5
+  size: 78, 46
+  orig: 80, 49
+  offset: 1, 1
+  index: -1
+effect0007
+  rotate: true
+  xy: 59, 2
+  size: 81, 52
+  orig: 83, 54
+  offset: 1, 1
+  index: -1
+effect0008
+  rotate: true
+  xy: 59, 2
+  size: 81, 52
+  orig: 83, 54
+  offset: 1, 1
+  index: -1
+effect0009
+  rotate: true
+  xy: 2, 2
+  size: 81, 55
+  orig: 84, 57
+  offset: 1, 1
+  index: -1
+effect0010
+  rotate: true
+  xy: 2, 2
+  size: 81, 55
+  orig: 84, 57
+  offset: 1, 1
+  index: -1
+effect0011
+  rotate: true
+  xy: 113, 6
+  size: 77, 49
+  orig: 78, 50
+  offset: 0, 1
+  index: -1
+effect0012
+  rotate: true
+  xy: 113, 6
+  size: 77, 49
+  orig: 78, 50
+  offset: 0, 1
+  index: -1
