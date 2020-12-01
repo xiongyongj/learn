@@ -1,6 +1,14 @@
 const child_process = require('child_process');
 const Fs = require('fs');
 const Os = require('os');
+const Path = require('path');
+const Tinify = require('tinify');
+
+let CompressType = {
+    "pngquant" : "pngquant",
+    "tinypng" : "tinypng",
+    "both" : "both"
+}
 
 function onBeforeBuildFinish(options, callback) {
     let config = Fs.readFileSync(Editor.url("packages://auto-compress/config.json"), "utf-8");
@@ -9,6 +17,7 @@ function onBeforeBuildFinish(options, callback) {
         callback();
         return;
     }
+    Tinify.key = config.apiKey || "";
     Editor.log("[构建后自动压缩png图片开始]");
 
     let queue = [];
@@ -19,7 +28,10 @@ function onBeforeBuildFinish(options, callback) {
         let assets = buildResults.getAssetUuids();
         assets.forEach((uuid) => {
             let url = Editor.assetdb.uuidToUrl(uuid);
-            if (!(/\.png$/.test(url))) return;
+            let regular = null;
+            if (config.compressType == CompressType.tinypng) regular = /\.png|\.jpg|\.jpeg$/;
+            else regular = /\.png$/;
+            if (!(regular.test(url))) return;
             let path = buildResults.getNativeAssetPath(uuid);
             let obj = {
                 url : url,
@@ -31,33 +43,59 @@ function onBeforeBuildFinish(options, callback) {
     let info = {
         success : 0,
         fail : 0,
+        invalid:0,
         tatal : queue.length
     }
     compressStart(config, queue, info, callback);
 }
 
+function isSpine(url) {
+    let baseUrl = Path.dirname(url);
+    let ext = Path.extname(url);
+    let name = Path.basename(url).split(ext)[0];
+    let json = Path.join(baseUrl, `${name}.json`);
+    let atlas = Path.join(baseUrl, `${name}.atlas`);
+
+    json = json.replace('db:', Editor.Project.path);
+    atlas = atlas.replace('db:', Editor.Project.path);
+
+    return !!(Fs.existsSync(json) && Fs.existsSync(atlas));
+}
+
 function compressStart(config, queue = [], info = {}, callback = null) {
     if (queue.length <= 0) {
-        Editor.log(`[自动压缩完成] =>总共${info.tatal}张 | 成功${info.success}张 | 失败${info.fail}张`);
+        Editor.log(`[自动压缩完成] =>总共${info.tatal}张 | 成功${info.success}张 | 失败${info.fail}张 | 无效${info.invalid}`);
         callback && callback();
         return;
     }
     let obj = queue.shift();
-    let u = obj.url.split("/");
-    let name = u[u.length - 1];
-    Editor.log(`正在压缩 ${name} | 构建后路径 ${obj.path}`);
-    if (!obj.url || !obj.path) {
-        info.fail++;
+    if (!obj.url || !obj.path || /^db:\/\/internal/.test(obj.url) ||
+        (config.compressType == CompressType.pngquant && isSpine(obj.url))) {
+        info.invalid++;
         compressStart(config, queue, info, callback);
         return;
     }
-    compress(obj.path, config, info, () => {
-        compressStart(config, queue, info, callback);
-    })
+
+    let func = () => compressStart(config, queue, info, callback);
+    if (config.compressType == CompressType.pngquant) {
+        compress(obj, config, info, func);
+    } else if (config.compressType == CompressType.tinypng) {
+        compress2(obj, config, info, func);
+    } else {
+        if (isSpine(obj.url)) {
+            compress2(obj, config, info, func);
+        } else {
+            compress(obj, config, info, func);
+        }
+    }
 }
 
-function compress(path, config, info, cb) {
-
+/**
+ * pngquant 压缩
+ */
+function compress(obj, config, info, cb) {
+    let url = obj.url, path = obj.path;
+    Editor.log(`正在使用 pngquant 压缩 ${Path.basename(url)} | 构建前路径 ${url} | 构建后路径 ${path}`);
     let compressOptions = `--quality ${config.minQuality}-${config.maxQuality} --ext=.png --force --skip-if-larger`;
     let pngquant = null;
     if (Os.platform() == "darwin") pngquant = Editor.url("packages://auto-compress/pngquant/mac/pngquant");
@@ -97,8 +135,33 @@ function compress(path, config, info, cb) {
     })
 }
 
-
-
+/**
+ * tinify 压缩
+ */
+function compress2(obj, config, info, cb) {
+    let url = obj.url, path = obj.path;
+    Editor.log(`正在使用 tinypng 压缩 ${Path.basename(url)} | 构建前路径 ${url} | 构建后路径 ${path}`);
+    let BSize = (Fs.statSync(path).size / 1024).toFixed(2);
+    let source = Tinify.fromFile(path);
+    source.toFile(path, (error, data) => {
+        if (!error) {
+            let ASize = (Fs.statSync(path).size / 1024).toFixed(2);
+            info.success++;
+            Editor.log(`压缩成功 >>> 压缩前 ${BSize}KB | 压缩后 ${ASize}KB | ${path}`);
+        } else {
+            info.fail++;
+            Editor.warn(`压缩失败 >>> ${path}`, error);
+            let reason = "";
+            if (error instanceof Tinify.AccountError) reason = "本月压缩数量已达上限" + error.message;
+            else if (error instanceof Tinify.ClientError) reason = "提交的数据存在问题，无法完成请求";
+            else if (error instanceof Tinify.ServerError) reason = "Tinify API出现问题，无法完成请求";
+            else if (error instanceof Tinify.ConnectionError) reason = "连接出现问题";
+            else reason = "error ->" + error.message;
+            Editor.log(`-   失败原因：${reason}`);
+        }
+        cb && cb();
+    });
+}
 
 module.exports = {
 

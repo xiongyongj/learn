@@ -9,7 +9,7 @@ h2, h4 {
     text-align: center;
 }
 
-.enabledBlock,.qualityBlock {
+.enabledBlock, .qualityBlock, .tinifyBlock {
     padding: 0 10px;
 }
 
@@ -27,7 +27,7 @@ div {
     font-size: 16px;
 }
 
-.enabled, .quality {
+.enabled, .quality, .compressType, .api_key {
     display: inline;
     font-size: 14px;
 }
@@ -36,10 +36,26 @@ div {
     margin-right: 175px;
 }
 
+.compressType {
+    margin-right: 30px;
+}
+
 .quality {
     margin-right: 90px;
 }
 
+.api_key {
+    margin-right: 95px;
+}
+
+.compress {
+    margin-right: 10px;
+}
+
 #MIN_QI, #MAX_QI {
     width: 130px;
+}
+
+#API_KEY {
+    width: 250px;
 }

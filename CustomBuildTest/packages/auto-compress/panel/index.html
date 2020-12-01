@@ -8,10 +8,18 @@
             <div class="enabledBlock">
                 <p class="enabled">启用</p>
                 <input id="EI" type="checkbox" name="启用">
+
+                <br/><br/>
+
+                <p class="compressType">压缩方式</p>
+                <label class="compress"><input id="pngquant" type="radio" name="compressType" >仅pngquant</label>
+                <label class="compress"><input id="tinypng" type="radio" name="compressType">仅tinypng</label>
+                <label class="compress"><input id="both" type="radio" name="compressType">pngquant和tinypng</label>
             </div>
             <hr/>
 
             <div class="qualityBlock">
+                <h4>pngquant设置</h4>
                 <div>
                     <p class="quality">最低质量</p>
                     <input id="MIN_QI" type="number" name="最低质量" value="50" min="0" max="100">
@@ -23,8 +31,15 @@
                 </div>
                 <p>质量区间为[0, 100]，并且最低质量小于最高质量</p>
             </div>
-
             <hr/>
+
+            <div class="tinifyBlock">
+                <h4>tinypng设置</h4>
+                <p class="api_key">API KEY</p>
+                <input id="API_KEY" type="text" name="api_key" value="" placeholder="输入tinypng的API key">
+            </div>
+            <hr/>
+
             <button class="save" type="button" >保  存</button>
         </div>
     </body>

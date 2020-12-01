@@ -1,5 +1,7 @@
 {
-	"enabled": true,
+	"enabled": false,
 	"minQuality": 60,
-	"maxQuality": 80
+	"maxQuality": 80,
+	"apiKey": "",
+	"compressType": "both"
 }
