@@ -1,0 +1,7 @@
+
+
+task hello {
+	println 'Hello World!'
+}
+
+apply plugin: 'java'
